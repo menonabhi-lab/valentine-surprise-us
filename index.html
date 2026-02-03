@@ -88,14 +88,8 @@
     }
 
     @keyframes floatUp {
-      from {
-        transform: translateY(0);
-        opacity: 1;
-      }
-      to {
-        transform: translateY(-110vh);
-        opacity: 0;
-      }
+      from { transform: translateY(0); opacity: 1; }
+      to { transform: translateY(-110vh); opacity: 0; }
     }
 
     /* POPUP */
@@ -154,7 +148,7 @@
 
 <body>
 
-  <h1 id="title">💗 Our 2025 memories 💗</h1>
+  <h1 id="title">💗 Our Memories 💗</h1>
 
   <div class="gallery" id="gallery"></div>
 
@@ -168,43 +162,53 @@
     </div>
   </div>
 
+  <!-- Background Jazz Music -->
+  <audio id="bgMusic" loop>
+    <source src="music/jazz.mp3" type="audio/mp3">
+  </audio>
+
   <script>
     const gallery = document.getElementById("gallery");
     const finalPhotos = document.getElementById("finalPhotos");
     const popup = document.getElementById("popup");
     const title = document.getElementById("title");
 
-    // Load initial 30 photos
+    // Load initial 30 photos (GitHub Pages friendly)
     for (let i = 1; i <= 30; i++) {
       const img = document.createElement("img");
-      img.src = `photos/us (${i}).jpg`;
+      img.src = `photos/us-${i}.jpg`;
       gallery.appendChild(img);
     }
 
+    // Show popup after 20 seconds
     window.onload = () => {
       setTimeout(() => {
         popup.style.visibility = "visible";
-      }, 20000);
+      }, 20000); // 20 seconds
     };
 
     function revealFinal() {
+      // Start music
+      document.getElementById("bgMusic").play();
+
+      // Hide initial elements
       popup.style.display = "none";
       gallery.style.display = "none";
       title.style.display = "none";
 
+      // Show final photos
       finalPhotos.style.display = "grid";
 
-      // Add final photos
       for (let i = 1; i <= 3; i++) {
         const img = document.createElement("img");
-        img.src = `photos/special (${i}).jpg`;
+        img.src = `photos/special-${i}.jpg`;
         finalPhotos.appendChild(img);
       }
 
       // Add overlay text
       const text = document.createElement("div");
       text.className = "overlay-text";
-      text.innerText = "My Forever Valentine ❤️, cannot wait to celebrate our 100th valentine";
+      text.innerText = "My Forever Valentine ❤️";
       document.body.appendChild(text);
 
       // Start floating hearts
