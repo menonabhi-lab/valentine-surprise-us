@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>💖 Valentine 💖</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #fff0f5;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    h1 {
+      margin: 6px 0;
+      color: #d6336c;
+    }
+
+    /* INITIAL 30-PHOTO GRID */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 8px;
+      padding: 8px;
+      height: calc(100vh - 50px);
+      width: 100vw;
+      box-sizing: border-box;
+    }
+
+    .gallery img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 12px;
+      aspect-ratio: 3 / 4;
+    }
+
+    /* FINAL FULL SCREEN VIEW */
+    .final-photos {
+      display: none;
+      position: fixed;
+      inset: 0;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      z-index: 5;
+    }
+
+    .final-photos img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      animation: fadeIn 1.5s forwards;
+    }
+
+    .final-photos img:nth-child(1) { animation-delay: 0.2s; }
+    .final-photos img:nth-child(2) { animation-delay: 0.6s; }
+    .final-photos img:nth-child(3) { animation-delay: 1s; }
+
+    /* TEXT OVERLAY */
+    .overlay-text {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+      font-weight: bold;
+      color: white;
+      text-shadow: 0 4px 15px rgba(0,0,0,0.6);
+      opacity: 0;
+      animation: fadeInText 2s forwards;
+      animation-delay: 1.8s;
+      z-index: 20;
+      pointer-events: none;
+    }
+
+    /* FLOATING HEARTS */
+    .heart {
+      position: fixed;
+      bottom: -20px;
+      font-size: 24px;
+      animation: floatUp 6s linear infinite;
+      z-index: 15;
+      pointer-events: none;
+    }
+
+    @keyframes floatUp {
+      from {
+        transform: translateY(0);
+        opacity: 1;
+      }
+      to {
+        transform: translateY(-110vh);
+        opacity: 0;
+      }
+    }
+
+    /* POPUP */
+    .popup {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      visibility: hidden;
+      z-index: 30;
+    }
+
+    .popup-content {
+      background: white;
+      padding: 30px;
+      border-radius: 18px;
+      width: 320px;
+    }
+
+    .popup-content h2 {
+      color: #d6336c;
+      margin-bottom: 20px;
+    }
+
+    button {
+      margin: 8px;
+      padding: 10px 22px;
+      font-size: 16px;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+    }
+
+    .yes {
+      background: #ff6b81;
+      color: white;
+    }
+
+    .no {
+      background: #ffe066;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(1.05); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes fadeInText {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1 id="title">💗 Our 2025 memories 💗</h1>
+
+  <div class="gallery" id="gallery"></div>
+
+  <div class="final-photos" id="finalPhotos"></div>
+
+  <div class="popup" id="popup">
+    <div class="popup-content">
+      <h2>Vivs, will you be my Valentine? 💘</h2>
+      <button class="yes" onclick="revealFinal()">Yes 💖</button>
+      <button class="no" onclick="revealFinal()">No (but yes 😌)</button>
+    </div>
+  </div>
+
+  <script>
+    const gallery = document.getElementById("gallery");
+    const finalPhotos = document.getElementById("finalPhotos");
+    const popup = document.getElementById("popup");
+    const title = document.getElementById("title");
+
+    // Load initial 30 photos
+    for (let i = 1; i <= 30; i++) {
+      const img = document.createElement("img");
+      img.src = `photos/us (${i}).jpg`;
+      gallery.appendChild(img);
+    }
+
+    window.onload = () => {
+      setTimeout(() => {
+        popup.style.visibility = "visible";
+      }, 20000);
+    };
+
+    function revealFinal() {
+      popup.style.display = "none";
+      gallery.style.display = "none";
+      title.style.display = "none";
+
+      finalPhotos.style.display = "grid";
+
+      // Add final photos
+      for (let i = 1; i <= 3; i++) {
+        const img = document.createElement("img");
+        img.src = `photos/special (${i}).jpg`;
+        finalPhotos.appendChild(img);
+      }
+
+      // Add overlay text
+      const text = document.createElement("div");
+      text.className = "overlay-text";
+      text.innerText = "My Forever Valentine ❤️, cannot wait to celebrate our 100th valentine";
+      document.body.appendChild(text);
+
+      // Start floating hearts
+      setInterval(createHeart, 400);
+    }
+
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.innerText = "❤️";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.animationDuration = 4 + Math.random() * 3 + "s";
+      document.body.appendChild(heart);
+
+      setTimeout(() => heart.remove(), 7000);
+    }
+  </script>
+
+</body>
+</html>
